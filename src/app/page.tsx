@@ -1,95 +1,98 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import Image from "next/image";
+import styles from "./page.module.scss";
+import { useState } from "react";
 
 export default function Home() {
+  const [option, setOption] = useState<number | null>(null);
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
+    <>
+      <header className={styles.header}>
+        <button>
+          <div>
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
+              src="/logo1.png"
+              alt="logo"
               priority
+              quality={100}
+              width={50}
+              height={50}
             />
-          </a>
+          </div>
+        </button>
+      </header>
+      <main className={styles.main}>
+        <div className={styles.hero}>
+          <div onClick={() => setOption(null)} className={styles.overlay}></div>
+          <div className={styles.content}>
+            <div
+              style={option === 0 ? { outline: "#FEFEFE 2px solid" } : {}}
+              onClick={() => setOption(0)}
+              className={styles.owner}
+            >
+              {option == 0 ? <h1>Vous êtes propriétaire?</h1> : <></>}
+              {option == 0 ? (
+                <form autoComplete="none" autoFocus>
+                  <input type="text" placeholder="773333333" />
+                  <button>Suivant</button>
+                </form>
+              ) : (
+                <></>
+              )}
+              <div
+                onClick={() => setOption(null)}
+                style={{ borderRadius: "15px" }}
+                className={option === 0 ? styles.overlay : styles.lightOverlay}
+              ></div>
+            </div>
+            <div className={styles.container}>
+              <div
+                style={option === 1 ? { outline: "#FEFEFE 2px solid" } : {}}
+                onClick={() => setOption(1)}
+                className={styles.staff}
+              >
+                {option === 1 ? <h1>Vous êtes caissier?</h1> : <></>}
+                {option == 1 ? (
+                  <form autoComplete="none" autoFocus>
+                    <input type="text" placeholder="773333333" />
+                    <button>Suivant</button>
+                  </form>
+                ) : (
+                  <></>
+                )}
+                <div
+                  style={{ borderRadius: "15px" }}
+                  className={
+                    option === 1 ? styles.overlay : styles.lightOverlay
+                  }
+                ></div>
+              </div>
+              <div
+                style={option === 2 ? { outline: "#FEFEFE 2px solid" } : {}}
+                onClick={() => setOption(2)}
+                className={styles.management}
+              >
+                {option === 2 ? <h1>Vous êtes gestionnaire?</h1> : <></>}
+                {option == 2 ? (
+                  <form autoComplete="none" autoFocus>
+                    <input type="text" placeholder="773333333" />
+                    <button>Suivant</button>
+                  </form>
+                ) : (
+                  <></>
+                )}
+                <div
+                  style={{ borderRadius: "15px" }}
+                  className={
+                    option === 2 ? styles.overlay : styles.lightOverlay
+                  }
+                ></div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      </main>
+    </>
+  );
 }
