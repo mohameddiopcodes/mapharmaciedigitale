@@ -97,9 +97,10 @@
   }
 
   & .overlay {
-    backdrop-filter: blur(10px);
-    --webkit-backdrop-filter: blur(10px);  }
+    backdrop-filter: blur(30px);
+    --webkit-backdrop-filter: blur(30px);  
   }
+}
 
 .content {
   max-width: 1200px;

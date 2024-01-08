@@ -10,6 +10,10 @@ export default function Home() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [expand, setExpand] = useState<boolean>(false);
   const [option, setOption] = useState<number | null>(null);
+  const [contentStyles, setContentStyles] = useState<Record<string, string>>({
+    opacity: "0",
+    transform: "translateX(-100vw)",
+  });
   const [loaded, setLoaded] = useState<Array<boolean>>([]);
   const [error, setError] = useState<string>("");
 
@@ -30,6 +34,17 @@ export default function Home() {
     setPhoneNumber(e.target.value);
     setError("");
   }
+
+  useEffect(() => {
+    if (loaded.length >= 3) {
+      setTimeout(() => {
+        setContentStyles({
+          opacity: "1",
+          transform: "translateX(0)",
+        });
+      }, 1000);
+    }
+  }, [loaded]);
 
   return (
     <>
@@ -53,14 +68,7 @@ export default function Home() {
         <div className={styles.hero}>
           <Image priority alt="owner" layout="fill" src="/owner.png" />
           <div onClick={() => setOption(null)} className={styles.overlay}></div>
-          <div
-            style={
-              loaded.length >= 3
-                ? { opacity: "1", transform: "translateX(0)" }
-                : { opacity: "0", transform: "translateX(-100vw)" }
-            }
-            className={styles.content}
-          >
+          <div style={contentStyles} className={styles.content}>
             <div
               style={option === 0 ? { outline: "#FEFEFE 1px solid" } : {}}
               onClick={() => setOption(0)}

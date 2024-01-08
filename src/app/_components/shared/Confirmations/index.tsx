@@ -20,7 +20,7 @@ export default function Confirmations({ recipient }: { recipient: string }) {
         setConsent(true);
         setTimeout(() => {
           setOpacity("1");
-        }, 500);
+        }, 2000);
       }
     } catch (e: any) {
       alert(e.message);
@@ -62,7 +62,7 @@ export default function Confirmations({ recipient }: { recipient: string }) {
             src="/verification.png"
             onLoad={() => setOpacity("1")}
           />
-          <button onClick={send}>Suivant</button>
+          <button onClick={send}>Envoyer</button>
         </div>
       ) : (
         <></>
