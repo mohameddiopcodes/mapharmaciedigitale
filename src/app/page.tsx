@@ -92,6 +92,7 @@ export default function Home() {
               {option == 0 ? <h1>Vous êtes propriétaire?</h1> : <></>}
               {option == 0 ? (
                 <form onSubmit={onSubmit} autoComplete="none" autoFocus>
+                  <label htmlFor="phone">Téléphone mobile:</label>
                   <input
                     onChange={onChange}
                     value={phoneNumber}
@@ -103,6 +104,7 @@ export default function Home() {
                     type="number"
                     placeholder="773333333"
                     pattern="[0-9]*"
+                    name="phone"
                   />
                   <button>Suivant</button>
                 </form>
@@ -132,6 +134,7 @@ export default function Home() {
                 {option === 1 ? <h1>Vous êtes caissier?</h1> : <></>}
                 {option == 1 ? (
                   <form onSubmit={onSubmit} autoComplete="none" autoFocus>
+                    <label htmlFor="phone">Téléphone mobile:</label>
                     <input
                       onChange={onChange}
                       value={phoneNumber}
@@ -143,6 +146,7 @@ export default function Home() {
                       type="number"
                       placeholder="773333333"
                       pattern="[0-9]*"
+                      name="phone"
                     />
                     <button>Suivant</button>
                   </form>
@@ -173,6 +177,7 @@ export default function Home() {
                 {option === 2 ? <h1>Vous êtes gestionnaire?</h1> : <></>}
                 {option == 2 ? (
                   <form onSubmit={onSubmit} autoComplete="none" autoFocus>
+                    <label htmlFor="phone">Téléphone mobile:</label>
                     <input
                       onChange={onChange}
                       value={phoneNumber}
@@ -184,6 +189,7 @@ export default function Home() {
                       type="number"
                       placeholder="773333333"
                       pattern="[0-9]*"
+                      name="phone"
                     />
                     <button>Suivant</button>
                   </form>
