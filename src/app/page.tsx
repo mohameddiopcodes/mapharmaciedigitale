@@ -53,6 +53,7 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <div className={styles.hero}>
+          <Image priority alt="owner" layout="fill" src="/owner.png" />
           <div onClick={() => setOption(null)} className={styles.overlay}></div>
           <div
             style={
