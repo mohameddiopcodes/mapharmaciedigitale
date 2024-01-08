@@ -87,8 +87,11 @@ export default function ConfirmationInput({
                 }
               }}
               key={i}
-              type="text"
+              type="number"
               disabled={disabled}
+              pattern="[0-9]*"
+              autoComplete="one-time-code"
+              required
             />
           ))}
         </div>

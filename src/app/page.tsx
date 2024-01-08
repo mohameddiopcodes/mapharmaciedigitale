@@ -9,7 +9,7 @@ import Confirmations from "./_components/shared/Confirmations";
 export default function Home() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [expand, setExpand] = useState<boolean>(false);
-  const [option, setOption] = useState<number | null>(null);
+  const [option, setOption] = useState<number | null>(0);
   const [contentStyles, setContentStyles] = useState<Record<string, string>>({
     opacity: "0",
     transform: "translateX(-100vw)",
@@ -36,13 +36,13 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (loaded.length >= 3) {
+    if (loaded.length >= 4) {
       setTimeout(() => {
         setContentStyles({
           opacity: "1",
           transform: "translateX(0)",
         });
-      }, 1000);
+      }, 500);
     }
   }, [loaded]);
 
@@ -66,7 +66,13 @@ export default function Home() {
       </header>
       <main className={styles.main}>
         <div className={styles.hero}>
-          <Image priority alt="owner" layout="fill" src="/owner.png" />
+          <Image
+            onLoad={() => setLoaded((prev) => [...prev, true])}
+            priority
+            alt="owner"
+            layout="fill"
+            src="/owner.png"
+          />
           <div onClick={() => setOption(null)} className={styles.overlay}></div>
           <div style={contentStyles} className={styles.content}>
             <div
@@ -96,6 +102,7 @@ export default function Home() {
                     }
                     type="number"
                     placeholder="773333333"
+                    pattern="[0-9]*"
                   />
                   <button>Suivant</button>
                 </form>
@@ -135,6 +142,7 @@ export default function Home() {
                       }
                       type="number"
                       placeholder="773333333"
+                      pattern="[0-9]*"
                     />
                     <button>Suivant</button>
                   </form>
@@ -175,6 +183,7 @@ export default function Home() {
                       }
                       type="number"
                       placeholder="773333333"
+                      pattern="[0-9]*"
                     />
                     <button>Suivant</button>
                   </form>

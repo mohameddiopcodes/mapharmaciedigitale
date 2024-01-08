@@ -116,6 +116,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  transition: background-color 5000s;
+  -webkit-text-fill-color: white !important;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
