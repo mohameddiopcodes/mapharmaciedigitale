@@ -8,12 +8,14 @@ const NOW = Date.now();
 const ONE_MINUTE = 60_000;
 
 export default function ConfirmationInput({
+  send,
   recipient,
-  setEmailCode,
-  setPhoneCode,
   disabled,
   setDisabled,
+  setEmailCode,
+  setPhoneCode,
 }: {
+  send: (recipient: string) => Promise<void>;
   recipient: string;
   disabled: boolean;
   setDisabled: Dispatch<SetStateAction<boolean>>;
@@ -94,22 +96,15 @@ export default function ConfirmationInput({
       <div>
         {!disabled ? (
           <button
-            // onClick={() => {
-            //   if (resent < NOW) {
-            //     fetch("/api/otp", {
-            //       method: "POST",
-            //       body: JSON.stringify({
-            //         email: setEmailCode ? to : undefined,
-            //         phone: setPhoneCode ? to : undefined,
-            //         send: [!!setEmailCode, !!setPhoneCode],
-            //       }),
-            //     });
-            //     setResent(NOW + ONE_MINUTE);
-            //     setTimeout(() => {
-            //       setResent(0);
-            //     }, ONE_MINUTE);
-            //   }
-            // }}
+            onClick={() => {
+              if (resent < NOW) {
+                send(to);
+                setResent(NOW + ONE_MINUTE);
+                setTimeout(() => {
+                  setResent(0);
+                }, ONE_MINUTE);
+              }
+            }}
             disabled={resent > NOW}
             className={styles.resend}
           >

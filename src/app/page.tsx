@@ -9,8 +9,6 @@ import Confirmations from "./_components/shared/Confirmations";
 export default function Home() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [expand, setExpand] = useState<boolean>(false);
-  const [phoneCode, setPhoneCode] = useState<string>("");
-  const [phoneDisabled, setPhoneDisabled] = useState<boolean>(false);
   const [option, setOption] = useState<number | null>(null);
   const [loaded, setLoaded] = useState<Array<boolean>>([]);
   const [error, setError] = useState<string>("");
@@ -64,7 +62,7 @@ export default function Home() {
             className={styles.content}
           >
             <div
-              style={option === 0 ? { outline: "#FEFEFE 2px solid" } : {}}
+              style={option === 0 ? { outline: "#FEFEFE 1px solid" } : {}}
               onClick={() => setOption(0)}
               className={styles.owner}
               onLoad={() => setLoaded((prev) => [...prev, true])}
@@ -75,6 +73,7 @@ export default function Home() {
                 alt="owner"
                 layout="fill"
                 src="/owner.png"
+                quality={100}
               />
               {option == 0 ? <h1>Vous êtes propriétaire?</h1> : <></>}
               {option == 0 ? (
@@ -102,7 +101,7 @@ export default function Home() {
             </div>
             <div className={styles.container}>
               <div
-                style={option === 1 ? { outline: "#FEFEFE 2px solid" } : {}}
+                style={option === 1 ? { outline: "#FEFEFE 1px solid" } : {}}
                 onClick={() => setOption(1)}
                 className={styles.staff}
                 onLoad={() => setLoaded((prev) => [...prev, true])}
@@ -113,6 +112,7 @@ export default function Home() {
                   alt="staff"
                   layout="fill"
                   src="/hero1.png"
+                  quality={100}
                 />
                 {option === 1 ? <h1>Vous êtes caissier?</h1> : <></>}
                 {option == 1 ? (
@@ -141,7 +141,7 @@ export default function Home() {
                 ></div>
               </div>
               <div
-                style={option === 2 ? { outline: "#FEFEFE 2px solid" } : {}}
+                style={option === 2 ? { outline: "#FEFEFE 1px solid" } : {}}
                 onClick={() => setOption(2)}
                 className={styles.management}
                 onLoad={() => setLoaded((prev) => [...prev, true])}
@@ -152,6 +152,7 @@ export default function Home() {
                   alt="gestionnaire"
                   layout="fill"
                   src="/management.png"
+                  quality={100}
                 />
                 {option === 2 ? <h1>Vous êtes gestionnaire?</h1> : <></>}
                 {option == 2 ? (
@@ -185,12 +186,7 @@ export default function Home() {
       </main>
       {expand ? (
         <div className={styles.validation}>
-          <Confirmations
-            recipient={phoneNumber}
-            disabled={phoneDisabled}
-            setPhoneCode={setPhoneCode}
-            setDisabled={setPhoneDisabled}
-          />
+          <Confirmations recipient={phoneNumber} />
           <div
             onClick={() => setExpand(false)}
             className={styles.overlay}
