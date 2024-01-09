@@ -1,38 +1,51 @@
 "use client";
-
 import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+import Context from "./_context";
+import setUser from "./_context/actions/setUser";
+import setError from "./_context/actions/setError";
 import styles from "./page.module.scss";
-import { useEffect, useState } from "react";
+
 import { isSnNumber } from "./utils/isPhoneNumber";
-import Confirmations from "./_components/shared/Confirmations";
+
+import { Error, Confirmations } from "./_components/shared";
 
 export default function Home() {
+  const {
+    dispatch,
+    state: { error },
+  } = useContext(Context);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [expand, setExpand] = useState<boolean>(false);
-  const [option, setOption] = useState<number | null>(0);
+  const [verify, setVerify] = useState<boolean>(false);
+  const [option, setOption] = useState<number>(0);
+  const [loaded, setLoaded] = useState<Array<boolean>>([]);
   const [contentStyles, setContentStyles] = useState<Record<string, string>>({
     opacity: "0",
     transform: "translateX(-100vw)",
   });
-  const [loaded, setLoaded] = useState<Array<boolean>>([]);
-  const [error, setError] = useState<string>("");
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setUser(
+      { phone: phoneNumber, role: option, userAgent: navigator.userAgent },
+      dispatch
+    );
     //bypass for testing
     if (phoneNumber === "3108907695") {
-      return setExpand(true);
+      return setVerify(true);
     }
     //end
     if (!isSnNumber(phoneNumber)) {
-      return setError("Numéro de téléphone invalide.");
+      return setError({ message: "Numéro de téléphone invalide." }, dispatch);
     }
-    setExpand(true);
+    setVerify(true);
   }
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setPhoneNumber(e.target.value);
-    setError("");
+    if (error.message) {
+      setError({ message: "" }, dispatch);
+    }
   }
 
   useEffect(() => {
@@ -48,22 +61,6 @@ export default function Home() {
 
   return (
     <>
-      <header className={styles.header}>
-        <button>
-          <div>
-            <Image
-              src="/logo1.png"
-              alt="logo"
-              priority
-              quality={100}
-              width={50}
-              height={50}
-            />
-          </div>
-        </button>
-        <p>Bienvenue</p>
-        <p className={error ? styles.error : ""}>{error}</p>
-      </header>
       <main className={styles.main}>
         <div className={styles.hero}>
           <Image
@@ -73,7 +70,7 @@ export default function Home() {
             layout="fill"
             src="/owner.png"
           />
-          <div onClick={() => setOption(null)} className={styles.overlay}></div>
+          <div className={styles.overlay}></div>
           <div style={contentStyles} className={styles.content}>
             <div
               style={option === 0 ? { outline: "#FEFEFE 1px solid" } : {}}
@@ -207,11 +204,12 @@ export default function Home() {
           </div>
         </div>
       </main>
-      {expand ? (
+      <Error />
+      {verify ? (
         <div className={styles.validation}>
-          <Confirmations recipient={phoneNumber} />
+          <Confirmations />
           <div
-            onClick={() => setExpand(false)}
+            onClick={() => setVerify(false)}
             className={styles.overlay}
           ></div>
         </div>

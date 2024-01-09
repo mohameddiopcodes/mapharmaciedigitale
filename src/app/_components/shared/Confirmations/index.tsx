@@ -1,19 +1,25 @@
-import { Dispatch, SetStateAction, use, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import ConfirmationInput from "./ConfirmationInput";
 import styles from "./index.module.scss";
 import Image from "next/image";
 import { sendPhone, verifyPhone } from "@/app/utils/verification";
+import Context from "@/app/_context";
+import fetchUser from "@/app/utils/fetchUser";
+import setError from "@/app/_context/actions/setError";
 
-export default function Confirmations({ recipient }: { recipient: string }) {
+export default function Confirmations() {
+  const {
+    dispatch,
+    state: { user, error },
+  } = useContext(Context);
+  const { phone } = user;
   const [opacity, setOpacity] = useState<string>("0");
-  const [phoneCode, setPhoneCode] = useState<string>("");
   const [disabled, setDisabled] = useState<boolean>(false);
   const [consent, setConsent] = useState<boolean>(false);
-
   async function send() {
     try {
       const response = await sendPhone(
-        recipient === "3108907695" ? `+1${recipient}` : `+221${recipient}`
+        phone === "3108907695" ? `+1${phone}` : `+221${phone}`
       );
       if (response.status === 200) {
         setOpacity("0");
@@ -26,27 +32,27 @@ export default function Confirmations({ recipient }: { recipient: string }) {
       alert(e.message);
     }
   }
-  async function verify() {
+  async function validate(code: string) {
     try {
-      const response = await verifyPhone(
-        ["", phoneCode],
-        recipient === "3108907695" ? `+1${recipient}` : `+221${recipient}`
-      );
-      const { phoneValid } = await response.json();
-      if (phoneValid) {
-        alert("phone verified");
+      if (error.message && dispatch) {
+        setError({ message: "" }, dispatch);
       }
-    } catch (e: any) {
-      alert(e.message);
+      //verify code
+      const response = await verifyPhone(
+        ["", code],
+        phone === "3108907695" ? `+1${phone}` : `+221${phone}`
+      );
+      const { phoneValid } = response.data;
+      if (!phoneValid) {
+        throw new Error("invalid phone code");
+      }
+      const response2 = await fetchUser(user);
+      console.log(response2.data, response2.status);
+    } catch (e) {
+      setError({ message: "Code invalide." }, dispatch);
+      setDisabled(false);
     }
   }
-
-  useEffect(() => {
-    console.log(phoneCode);
-    if (phoneCode.length === 6) {
-      verify();
-    }
-  }, [phoneCode]);
 
   return (
     <>
@@ -72,8 +78,7 @@ export default function Confirmations({ recipient }: { recipient: string }) {
           <p>Vérification SMS</p>
           <ConfirmationInput
             send={send}
-            recipient={recipient}
-            setPhoneCode={setPhoneCode}
+            validate={validate}
             disabled={disabled}
             setDisabled={setDisabled}
           />

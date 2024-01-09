@@ -1,0 +1,22 @@
+.header {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1em 2em;
+  position: fixed;
+  z-index: 1;
+  color: rgba(255,255,255,.7)
+}
+
+.error {
+  color: #F44336;
+  background-color: #fbc2be;
+  border: 1px solid #f44336;
+  border-radius: 5px;
+  padding: .8em 1em;
+  font-size: .8em;
+  font-weight: 500;
+  margin: 1em 0;
+}

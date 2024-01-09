@@ -35,6 +35,7 @@ function sendPhoneConfirmation(phone: string) {
   try {
     client.verify.v2.services(verificationSID).verifications.create({
       to: phone,
+      locale: "fr",
       channel: "sms",
     });
   } catch (e) {
