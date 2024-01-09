@@ -73,7 +73,7 @@ export default function Home() {
           <div className={styles.overlay}></div>
           <div style={contentStyles} className={styles.content}>
             <div
-              style={option === 0 ? { outline: "#FEFEFE 1px solid" } : {}}
+              style={option === 0 ? { outline: "#FEFEFE 2px solid" } : {}}
               onClick={() => setOption(0)}
               className={styles.owner}
               onLoad={() => setLoaded((prev) => [...prev, true])}
@@ -101,7 +101,7 @@ export default function Home() {
                     type="number"
                     placeholder="773333333"
                     pattern="[0-9]*"
-                    name="phone"
+                    id="phone"
                   />
                   <button>Suivant</button>
                 </form>
@@ -115,7 +115,7 @@ export default function Home() {
             </div>
             <div className={styles.container}>
               <div
-                style={option === 1 ? { outline: "#FEFEFE 1px solid" } : {}}
+                style={option === 1 ? { outline: "#FEFEFE 2px solid" } : {}}
                 onClick={() => setOption(1)}
                 className={styles.staff}
                 onLoad={() => setLoaded((prev) => [...prev, true])}
@@ -128,7 +128,7 @@ export default function Home() {
                   src="/hero1.png"
                   quality={100}
                 />
-                {option === 1 ? <h1>Vous êtes caissier?</h1> : <></>}
+                {option === 1 ? <h1>Vous êtes vendeur?</h1> : <></>}
                 {option == 1 ? (
                   <form onSubmit={onSubmit} autoComplete="none" autoFocus>
                     <label htmlFor="phone">Téléphone mobile:</label>
@@ -143,7 +143,7 @@ export default function Home() {
                       type="number"
                       placeholder="773333333"
                       pattern="[0-9]*"
-                      name="phone"
+                      id="phone"
                     />
                     <button>Suivant</button>
                   </form>
@@ -158,7 +158,7 @@ export default function Home() {
                 ></div>
               </div>
               <div
-                style={option === 2 ? { outline: "#FEFEFE 1px solid" } : {}}
+                style={option === 2 ? { outline: "#FEFEFE 2px solid" } : {}}
                 onClick={() => setOption(2)}
                 className={styles.management}
                 onLoad={() => setLoaded((prev) => [...prev, true])}
@@ -186,7 +186,7 @@ export default function Home() {
                       type="number"
                       placeholder="773333333"
                       pattern="[0-9]*"
-                      name="phone"
+                      id="phone"
                     />
                     <button>Suivant</button>
                   </form>
