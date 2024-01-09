@@ -17,7 +17,7 @@ export default function Home() {
   } = useContext(Context);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [verify, setVerify] = useState<boolean>(false);
-  const [option, setOption] = useState<number>(0);
+  const [option, setOption] = useState<number>(Math.floor(Math.random() * 3));
   const [loaded, setLoaded] = useState<Array<boolean>>([]);
   const [contentStyles, setContentStyles] = useState<Record<string, string>>({
     opacity: "0",
