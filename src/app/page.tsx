@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useLayoutEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Context from "./_context";
 import setUser from "./_context/actions/setUser";
 import setError from "./_context/actions/setError";
@@ -8,30 +9,38 @@ import styles from "./page.module.scss";
 
 import { isSnNumber } from "./utils/isPhoneNumber";
 
-import { Error, Confirmations } from "./_components/shared";
+import { Error, Confirmations, Header } from "./_components/shared";
+import { ALLOWED_ROLES, BYPASS } from "./utils/allowedList";
 
 export default function Home() {
+  //state and context
   const {
     dispatch,
-    state: { error },
+    state: { error, user },
   } = useContext(Context);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>(user.phone || "");
+  const [option, setOption] = useState<number>(user.role || 0);
   const [verify, setVerify] = useState<boolean>(false);
-  const [option, setOption] = useState<number>(Math.floor(Math.random() * 3));
   const [loaded, setLoaded] = useState<Array<boolean>>([]);
   const [contentStyles, setContentStyles] = useState<Record<string, string>>({
     opacity: "0",
     transform: "translateX(-100vw)",
   });
 
+  //onsubmit function
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setUser(
-      { phone: phoneNumber, role: option, userAgent: navigator.userAgent },
-      dispatch
-    );
+    if (
+      !user.name ||
+      typeof user.role !== "number" ||
+      !ALLOWED_ROLES.includes(user.role)
+    )
+      return setError(
+        { message: "Veuillez utilisé votre lien personnel." },
+        dispatch
+      );
     //bypass for testing
-    if (phoneNumber === "3108907695") {
+    if (phoneNumber === BYPASS) {
       return setVerify(true);
     }
     //end
@@ -41,6 +50,7 @@ export default function Home() {
     setVerify(true);
   }
 
+  //onchange function
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setPhoneNumber(e.target.value);
     if (error.message) {
@@ -48,7 +58,8 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
+  //use layout effect
+  useLayoutEffect(() => {
     if (loaded.length >= 4) {
       setTimeout(() => {
         setContentStyles({
@@ -61,6 +72,7 @@ export default function Home() {
 
   return (
     <>
+      <Header />
       <main className={styles.main}>
         <div className={styles.hero}>
           <Image

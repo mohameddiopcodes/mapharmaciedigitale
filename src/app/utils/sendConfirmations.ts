@@ -19,13 +19,10 @@ export default function sendConfirmations(
 
 async function sendEmailConfirmation(email: string) {
   try {
-    client.verify.v2
-      .services(verificationSID)
-      .verifications.create({
-        to: email,
-        channel: "email",
-      })
-      .then((verification) => console.log(verification));
+    client.verify.v2.services(verificationSID).verifications.create({
+      to: email,
+      channel: "email",
+    });
   } catch (e) {
     console.log(e);
   }
@@ -45,7 +42,6 @@ function sendPhoneConfirmation(phone: string) {
 
 export async function verificationCheck(to: string, code: string) {
   try {
-    console.log("DEBUG #3", to, code);
     const verification = await client.verify.v2
       .services(verificationSID)
       .verificationChecks.create({ to, code });

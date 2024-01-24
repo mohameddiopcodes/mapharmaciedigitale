@@ -5,6 +5,16 @@ export type UserType = {
   password?: string;
   userAgent?: string;
   role?: number;
+  initials?: () => string;
 };
 
-export const user = {};
+export const user = {
+  name: "",
+  initials: function () {
+    return this.name
+      ? this.name
+          .split(" ")
+          .reduce((acc, n, i) => (i < 3 ? acc + n[0] : acc), "")
+      : "";
+  },
+};

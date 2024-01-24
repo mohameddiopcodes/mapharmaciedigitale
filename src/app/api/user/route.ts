@@ -1,19 +1,31 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import allowedList from "@/app/utils/allowedList";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
+import path from "path";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const { phone, role, userAgent } = await req.json();
+    if (!process.env.BACKEND_URL) throw new Error("Can't perform task.");
+    const { name, phone, role, userAgent } = await req.json();
+    if (role === 0 && !allowedList.includes(phone)) {
+      return NextResponse.json({
+        message: "Veuillez inscrire votre pharmacie.",
+        status: 403,
+      });
+    }
     const response = await axios.post(process.env.BACKEND_URL + "/user", {
+      name,
       phone,
       role,
       userAgent,
     });
-    console.log(response.data);
     return NextResponse.json({ data: response.data, status: 200 });
   } catch (e: any) {
-    console.log(e);
-    return NextResponse.json({ message: e.message, status: e.status });
+    console.log(e.response);
+    return NextResponse.json({
+      message: e.response.data.message,
+      status: e.response.status,
+    });
   }
 }

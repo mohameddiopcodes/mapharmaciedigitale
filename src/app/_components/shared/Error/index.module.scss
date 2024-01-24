@@ -1,20 +1,27 @@
 .error {
+    cursor: pointer;
     color: #F44336;
     background-color: #fbc2be;
     border: 1px solid #f44336;
     border-radius: 5px;
     position: fixed;
-    top: 7em;
-    width: 250px;
+    max-width: 310px;
+    width: 90%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    right: calc((100vw - 250px)/2);
-    left: calc((100vw - 250px)/2);
     text-align: center;
     padding: .8em 1em;
     font-size: .8em;
     font-weight: 500;
     margin: 1em 0;
+}
+
+.container {
+    top: 7em;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     z-index: 999;
 }

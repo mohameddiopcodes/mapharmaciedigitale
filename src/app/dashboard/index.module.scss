@@ -1,0 +1,32 @@
+.main {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    transition: all .3s ease-in-out;
+    color: #000
+    & img {
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    div:not(.overlay) {
+        z-index: 1;
+    }
+    
+    @media screen and (max-width: 768px) {
+            align-items: center;
+            justify-content: center;
+    }
+}
+
+// .overlay {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     backdrop-filter: blur(30px);
+//     --webkit-backdrop-filter: blur(30px);
+// }

@@ -6,8 +6,11 @@ import { sendPhone, verifyPhone } from "@/app/utils/verification";
 import Context from "@/app/_context";
 import fetchUser from "@/app/utils/fetchUser";
 import setError from "@/app/_context/actions/setError";
+import validator from "validator";
+import { useRouter } from "next/navigation";
 
 export default function Confirmations() {
+  const router = useRouter();
   const {
     dispatch,
     state: { user, error },
@@ -29,7 +32,7 @@ export default function Confirmations() {
         }, 2000);
       }
     } catch (e: any) {
-      alert(e.message);
+      setError({ message: "Veuillez réessayer plus tard." }, dispatch);
     }
   }
   async function validate(code: string) {
@@ -44,12 +47,29 @@ export default function Confirmations() {
       );
       const { phoneValid } = response.data;
       if (!phoneValid) {
-        throw new Error("invalid phone code");
+        throw { message: "Code invalide." };
       }
       const response2 = await fetchUser(user);
-      console.log(response2.data, response2.status);
-    } catch (e) {
-      setError({ message: "Code invalide." }, dispatch);
+      if (![200, 201].includes(response2.data.status)) {
+        setError({ message: response2.data.message }, dispatch);
+      }
+      console.log(response2, response2.data);
+      console.log("DEBUG: ", response2.data.data.token);
+      if (!validator.isJWT(response2.data.data.token)) {
+        throw { message: "Connexion échouée." };
+      }
+      localStorage.setItem("mapharma", response2.data.data.token);
+      router.push(
+        "/dashboard?contact=" +
+          user.name +
+          "%2F" +
+          user.phone +
+          "%2F" +
+          user.role
+      );
+    } catch (e: any) {
+      console.log(e);
+      setError({ message: e.message }, dispatch);
       setDisabled(false);
     }
   }

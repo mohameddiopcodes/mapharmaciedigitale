@@ -8,5 +8,16 @@ export default function Error() {
       error: { message },
     },
   } = useContext(Context);
-  return message ? <span className={styles.error}>{message}</span> : <></>;
+  return message ? (
+    <div className={styles.container}>
+      <span
+        onClick={() => location && location.reload()}
+        className={styles.error}
+      >
+        {message}
+      </span>
+    </div>
+  ) : (
+    <></>
+  );
 }

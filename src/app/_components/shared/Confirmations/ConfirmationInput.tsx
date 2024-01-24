@@ -69,13 +69,12 @@ export default function ConfirmationInput({
                 if (
                   !isNaN(parseInt(e.target.value.split("").pop() as string))
                 ) {
-                  const code =
-                    Object.values(digits)
-                      .map((d) => d.toString())
-                      .join("") + e.target.value;
-                  if (code.length === 6) {
+                  const code = Object.values(digits)
+                    .map((d) => d.toString())
+                    .join("");
+                  if (code.length === 5) {
                     setDisabled(true);
-                    validate(code);
+                    validate(code + e.target.value);
                   }
                   setDigits((prev) => {
                     for (let j = 0; j < i; j++) {
@@ -84,6 +83,19 @@ export default function ConfirmationInput({
                           ...prev,
                           [j]: e.target.value.split("").pop() as string,
                         };
+                      }
+                    }
+                    if (digits[i]) {
+                      for (let j = i; j < Object.values(digits).length; j++) {
+                        if (
+                          !digits[j] ||
+                          j === Object.values(digits).length - 1
+                        ) {
+                          return {
+                            ...prev,
+                            [j]: e.target.value.split("").pop() as string,
+                          };
+                        }
                       }
                     }
                     return {
