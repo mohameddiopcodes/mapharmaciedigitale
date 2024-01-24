@@ -44,7 +44,7 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (!Object.values(user).length) {
+    if (!user || !user.name) {
       router.push(`/${link}`);
       localStorage.removeItem("mapharma");
       setError({ message: "Veuillez vous réauthentifier." }, dispatch);

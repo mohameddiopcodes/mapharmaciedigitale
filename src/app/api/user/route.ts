@@ -2,7 +2,6 @@
 import allowedList from "@/app/utils/allowedList";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
 
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
